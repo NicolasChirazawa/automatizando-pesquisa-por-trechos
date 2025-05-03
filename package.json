@@ -1,0 +1,11 @@
+{
+  "name": "automatizando-pesquisa-por-trechos",
+  "version": "1.0.0",
+  "description": "Pesquisa de trechos a partir de vários arquivos",
+  "main": "./programa/base.js",
+  "type": "module",
+  "scripts": {
+  },
+  "author": "Nicolas Chirazawa Fernandes",
+  "license": "MIT License"
+}
