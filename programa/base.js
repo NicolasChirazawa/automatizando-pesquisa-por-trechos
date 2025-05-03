@@ -52,17 +52,24 @@ async function procurarUmaOcorrencia (linhas, trechoAProcurar) {
 
         for(let j = 0; j < linhas[i].length; j++){
             
+            // Caso para diminuir a quantidade de loops desnecessários. Quantidade de caracteres do match maior que a frase mais o andamento do loop.
             if(linhas[i].length - j < trechoAProcurar) { break }
 
             if(linhas[i][j] == trechoAProcurar[letrasMatch]) { 
                 letrasMatch++;
             }  else {
+                
+                if(letrasMatch > 0) { 
+                    const arrumarCasoDuplicidadeLetra = 1
+                    j -= arrumarCasoDuplicidadeLetra;
+                }
                 letrasMatch = 0;
             }
             
             if (trechoAProcurar.length == letrasMatch) {
+                const arrumarNumeroLinhasArray = 1;
                 return ({
-                        numeroLinha:   i, 
+                        numeroLinha:   i + arrumarNumeroLinhasArray, 
                         conteudoLinha: linhas[i]
                     }) ;
             }
