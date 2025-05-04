@@ -23,26 +23,20 @@ async function procurarArquivos() {
     return pesquisaDiretorio;
 }
 
-async function lerArquivos (decisaoOcorrencia, nomeArquivos, trechoAProcurar) {
-    if(decisaoOcorrencia == 'Um') {
-        const caminho = "/trechos-pesquisa/";
+async function lerArquivosUmaOcorrencia (nomeArquivos, trechoAProcurar) {
 
-        for(let i = 0; i < nomeArquivos.length; i++){
-            let linhas;
-            const texto = await fs.readFile(__dirname + caminho + `/${nomeArquivos[i]}`, "utf8");
-            linhas = texto.split('\r\n');
-            const matchDescricao = await procurarUmaOcorrencia(linhas, trechoAProcurar);
+    const caminho = "/trechos-pesquisa/";
 
-            if (matchDescricao != undefined) {
-                matchDescricao["arquivo"] = nomeArquivos[i];
-                console.log(matchDescricao);
-                break;
-            } else if (nomeArquivos.length == i + 1) {
-                console.log('Erro');
-            }
+    for(let i = 0; i < nomeArquivos.length; i++){
+        let linhas;
+        const texto = await fs.readFile(__dirname + caminho + `/${nomeArquivos[i]}`, "utf8");
+        linhas = texto.split('\r\n');
+        const matchDescricao = await procurarUmaOcorrencia(linhas, trechoAProcurar);
+
+        if (matchDescricao !== undefined) {
+            matchDescricao["arquivo"] = nomeArquivos[i];
+            return matchDescricao;
         }
-    } else {
-
     }
 }
 
@@ -71,40 +65,80 @@ async function procurarUmaOcorrencia (linhas, trechoAProcurar) {
                 return ({
                         numeroLinha:   i + arrumarNumeroLinhasArray, 
                         conteudoLinha: linhas[i]
-                    }) ;
+                });
             }
         }
     }
 }
 
+async function lerArquivoTodasOcorrencias (nomeArquivos, trechoAProcurar) {
+
+    const caminho = "/trechos-pesquisa/";
+    let produtoTodasOcorrencias = {};
+
+    for(let i = 0; i < nomeArquivos.length; i++){
+        let linhas;
+        const texto = await fs.readFile(__dirname + caminho + `/${nomeArquivos[i]}`, "utf8");
+        linhas = texto.split('\r\n');
+        const matchDescricao = await procurarTodasOcorrencias(linhas, trechoAProcurar);
+
+        if (matchDescricao !== undefined) {
+            // matchDescricao["arquivo"] = nomeArquivos[i];
+            produtoTodasOcorrencias[nomeArquivos[i]] = matchDescricao;
+        }
+    }
+
+    return produtoTodasOcorrencias;
+}
+
 async function procurarTodasOcorrencias (linhas, trechoAProcurar) {
+    let todasOcorrencias = [];
     for(let i = 0; i < linhas.length; i++){
         let letrasMatch = 0;
 
         for(let j = 0; j < linhas[i].length; j++){
             
+            // Caso para diminuir a quantidade de loops desnecessários. Quantidade de caracteres do match maior que a frase mais o andamento do loop.
             if(linhas[i].length - j < trechoAProcurar) { break }
 
             if(linhas[i][j] == trechoAProcurar[letrasMatch]) { 
-                console.log(linhas[i][j])
                 letrasMatch++;
             }  else {
+                
+                if(letrasMatch > 0) { 
+                    const arrumarCasoDuplicidadeLetra = 1
+                    j -= arrumarCasoDuplicidadeLetra;
+                }
                 letrasMatch = 0;
             }
             
             if (trechoAProcurar.length == letrasMatch) {
-                return ({
-                        numeroLinha:   i, 
+                const arrumarNumeroLinhasArray = 1;
+                todasOcorrencias.push({
+                        numeroLinha:   i + arrumarNumeroLinhasArray, 
                         conteudoLinha: linhas[i]
-                    }) ;
+                });
             }
         }
     }
+    return todasOcorrencias;
 }
 
-const decisaoOcorrencia = 'Um';
+const decisaoOcorrencia = 'Todos';
 const trechoAProcurar = 'banana'
 
 verificacoesPrevias(decisaoOcorrencia, trechoAProcurar);
 const arquivosNome = await procurarArquivos();
-await lerArquivos(decisaoOcorrencia, arquivosNome, trechoAProcurar);
+
+let resultado;
+if(decisaoOcorrencia == 'Um') {
+    resultado = await lerArquivosUmaOcorrencia(arquivosNome, trechoAProcurar);
+} else if(decisaoOcorrencia == 'Todos') {
+    resultado = await lerArquivoTodasOcorrencias(arquivosNome, trechoAProcurar);
+}
+
+if(resultado !== undefined) {
+    console.log(resultado);
+} else {
+    console.log('Não foi achado qualquer resultado')
+}
