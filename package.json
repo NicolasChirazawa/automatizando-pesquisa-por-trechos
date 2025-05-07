@@ -4,8 +4,7 @@
   "description": "Pesquisa de trechos a partir de vários arquivos",
   "main": "./programa/base.js",
   "type": "module",
-  "scripts": {
-  },
+  "scripts": {},
   "author": "Nicolas Chirazawa Fernandes",
   "license": "MIT License"
 }

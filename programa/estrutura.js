@@ -17,7 +17,7 @@ function verificacoesPrevias(decisaoOcorrencia, trechoAProcurar) {
 }
 
 async function procurarArquivos() {
-    const caminho = "/trechos-pesquisa/";
+    const caminho = "/../trechos-pesquisa/"
 
     const pesquisaDiretorio = await fs.readdir(__dirname + caminho);
     return pesquisaDiretorio;
@@ -25,7 +25,7 @@ async function procurarArquivos() {
 
 async function lerArquivosUmaOcorrencia (nomeArquivos, trechoAProcurar) {
 
-    const caminho = "/trechos-pesquisa/";
+    const caminho = "/../trechos-pesquisa/";
 
     for(let i = 0; i < nomeArquivos.length; i++){
         let linhas;
@@ -73,7 +73,7 @@ async function procurarUmaOcorrencia (linhas, trechoAProcurar) {
 
 async function lerArquivoTodasOcorrencias (nomeArquivos, trechoAProcurar) {
 
-    const caminho = "/trechos-pesquisa/";
+    const caminho = "/../trechos-pesquisa/";
     let produtoTodasOcorrencias = {};
 
     for(let i = 0; i < nomeArquivos.length; i++){
@@ -124,21 +124,4 @@ async function procurarTodasOcorrencias (linhas, trechoAProcurar) {
     return todasOcorrencias;
 }
 
-const decisaoOcorrencia = 'Todos';
-const trechoAProcurar = 'banana'
-
-verificacoesPrevias(decisaoOcorrencia, trechoAProcurar);
-const arquivosNome = await procurarArquivos();
-
-let resultado;
-if(decisaoOcorrencia == 'Um') {
-    resultado = await lerArquivosUmaOcorrencia(arquivosNome, trechoAProcurar);
-} else if(decisaoOcorrencia == 'Todos') {
-    resultado = await lerArquivoTodasOcorrencias(arquivosNome, trechoAProcurar);
-}
-
-if(resultado !== undefined) {
-    console.log(resultado);
-} else {
-    console.log('Não foi achado qualquer resultado')
-}
+export { verificacoesPrevias, procurarArquivos, lerArquivosUmaOcorrencia, lerArquivoTodasOcorrencias }
