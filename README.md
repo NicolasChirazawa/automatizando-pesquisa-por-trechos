@@ -12,8 +12,8 @@ e vai se acumulando.
 
 <h3>Softwares necessários</h3>
 
-• <a href="https://nodejs.org/dist/v22.14.0/node-v22.14.0-x64.msi">Node.JS</a>; <br>
-• <a href="https://code.visualstudio.com/Download">Editor de Código</a> (recomendo VSC); <br>
+• <a href="https://nodejs.org/dist/v22.14.0/node-v22.14.0-x64.msi">Node.JS</a>;
+<h6>Recomendação: Um editor de código: <a href="https://code.visualstudio.com/sha/download?build=stable&os=win32-x64-user">Visual Studio Code</a>; </h6>
 
 <h3>Meios de acessar o projeto</h3>
 
@@ -22,4 +22,3 @@ e vai se acumulando.
 ```
 gh repo clone NicolasChirazawa/automatizando-pesquisa-por-trechos
 ```
-
