@@ -1,7 +1,4 @@
-import * as fs from 'node:fs/promises';
-import path from 'path';
-
-const __dirname = path.resolve();
+const fs = require('fs');
 
 function verificacoesPrevias(decisaoOcorrencia, trechoAProcurar) {
 
@@ -16,22 +13,22 @@ function verificacoesPrevias(decisaoOcorrencia, trechoAProcurar) {
     }
 }
 
-async function procurarArquivos() {
+function procurarArquivos() {
     const caminho = "/../trechos-pesquisa/"
 
-    const pesquisaDiretorio = await fs.readdir(__dirname + caminho);
+    const pesquisaDiretorio = fs.readdirSync(__dirname + caminho)
     return pesquisaDiretorio;
 }
 
-async function lerArquivosUmaOcorrencia (nomeArquivos, trechoAProcurar) {
+function lerArquivosUmaOcorrencia (nomeArquivos, trechoAProcurar) {
 
     const caminho = "/../trechos-pesquisa/";
 
     for(let i = 0; i < nomeArquivos.length; i++){
         let linhas;
-        const texto = await fs.readFile(__dirname + caminho + `/${nomeArquivos[i]}`, "utf8");
+        const texto = fs.readFileSync(__dirname + caminho + `/${nomeArquivos[i]}`, "utf8");
         linhas = texto.split('\r\n');
-        const matchDescricao = await procurarUmaOcorrencia(linhas, trechoAProcurar);
+        const matchDescricao = procurarUmaOcorrencia(linhas, trechoAProcurar);
 
         if (matchDescricao !== undefined) {
             matchDescricao["arquivo"] = nomeArquivos[i];
@@ -40,7 +37,7 @@ async function lerArquivosUmaOcorrencia (nomeArquivos, trechoAProcurar) {
     }
 }
 
-async function procurarUmaOcorrencia (linhas, trechoAProcurar) {
+function procurarUmaOcorrencia (linhas, trechoAProcurar) {
     for(let i = 0; i < linhas.length; i++){
         let letrasMatch = 0;
 
@@ -71,16 +68,16 @@ async function procurarUmaOcorrencia (linhas, trechoAProcurar) {
     }
 }
 
-async function lerArquivoTodasOcorrencias (nomeArquivos, trechoAProcurar) {
+function lerArquivoTodasOcorrencias (nomeArquivos, trechoAProcurar) {
 
     const caminho = "/../trechos-pesquisa/";
     let produtoTodasOcorrencias = {};
 
     for(let i = 0; i < nomeArquivos.length; i++){
         let linhas;
-        const texto = await fs.readFile(__dirname + caminho + `/${nomeArquivos[i]}`, "utf8");
+        const texto = fs.readFileSync(__dirname + caminho + `/${nomeArquivos[i]}`, "utf8");
         linhas = texto.split('\r\n');
-        const matchDescricao = await procurarTodasOcorrencias(linhas, trechoAProcurar);
+        const matchDescricao = procurarTodasOcorrencias(linhas, trechoAProcurar);
 
         if (matchDescricao !== undefined) {
             // matchDescricao["arquivo"] = nomeArquivos[i];
@@ -91,7 +88,7 @@ async function lerArquivoTodasOcorrencias (nomeArquivos, trechoAProcurar) {
     return produtoTodasOcorrencias;
 }
 
-async function procurarTodasOcorrencias (linhas, trechoAProcurar) {
+function procurarTodasOcorrencias (linhas, trechoAProcurar) {
     let todasOcorrencias = [];
     for(let i = 0; i < linhas.length; i++){
         let letrasMatch = 0;
@@ -124,4 +121,5 @@ async function procurarTodasOcorrencias (linhas, trechoAProcurar) {
     return todasOcorrencias;
 }
 
-export { verificacoesPrevias, procurarArquivos, lerArquivosUmaOcorrencia, lerArquivoTodasOcorrencias }
+
+module.exports = { verificacoesPrevias, procurarArquivos, lerArquivosUmaOcorrencia, lerArquivoTodasOcorrencias }

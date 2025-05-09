@@ -1,4 +1,4 @@
-import { verificacoesPrevias, procurarArquivos, lerArquivosUmaOcorrencia, lerArquivoTodasOcorrencias } from './estrutura.js'
+const { verificacoesPrevias, procurarArquivos, lerArquivosUmaOcorrencia, lerArquivoTodasOcorrencias } = require('./estrutura.js');
 
 // Modo 'Um' para uma ocorrência / Modo 'Todos' para todas as ocorrências;
 const decisaoOcorrencia = 'Um';
@@ -7,14 +7,14 @@ const decisaoOcorrencia = 'Um';
 const trechoAProcurar = 'banana'
 
 verificacoesPrevias(decisaoOcorrencia, trechoAProcurar);
-const arquivosNome = await procurarArquivos();
+const arquivosNome = procurarArquivos();
 
 let resultado;
 
 if(decisaoOcorrencia == 'Um') {
-    resultado = await lerArquivosUmaOcorrencia(arquivosNome, trechoAProcurar);
+    resultado = lerArquivosUmaOcorrencia(arquivosNome, trechoAProcurar);
 } else if(decisaoOcorrencia == 'Todos') {
-    resultado = await lerArquivoTodasOcorrencias(arquivosNome, trechoAProcurar);
+    resultado = lerArquivoTodasOcorrencias(arquivosNome, trechoAProcurar);
 }
 
 if(resultado !== undefined) {
