@@ -22,3 +22,20 @@ e vai se acumulando.
 ```
 gh repo clone NicolasChirazawa/automatizando-pesquisa-por-trechos
 ```
+
+<h3>Baixar dependências</h3>
+Para baixar as dependências do projeto, use o comando: <br> <br>
+
+```bash
+npm i
+```
+
+<h3>Rodar o projeto</h3>
+Para rodar o projeto basta usar o comando: <br> <br>
+
+```bash
+npm start
+```
+
+<h2 name="inicializar">📄 Como usar?</h2>
+Dentro da pasta do projeto, acesse a subpasta 'trechos-pesquisa', lá você pode adicionar os arquivos '.txt' para fazer sua pesquisa.
