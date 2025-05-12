@@ -47,14 +47,11 @@ while(repeticaoProcura){
         console.log('Não foi achado qualquer resultado.');
     }
 
-    console.log('\n Deseja parar?');
+    let repeticaoEscolha = readLineSync.keyInYN('\n Deseja parar?');
 
-    let repeticaoEscolha = readLineSync.question('[1]: Parar / Qualquer outra coisa: Seguir \n');
-
-    if(repeticaoEscolha == '1') {
+    if(repeticaoEscolha == true) {
         repeticaoProcura = false;
         break;
     } 
-
     console.clear();
 }
