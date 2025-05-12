@@ -2,13 +2,13 @@ const fs = require('fs');
 
 function verificacoesPrevias(decisaoOcorrencia, trechoAProcurar) {
 
-    if(decisaoOcorrencia != 'Um' && decisaoOcorrencia != 'Todos') {
+    if(decisaoOcorrencia != '1' && decisaoOcorrencia != '2') {
         console.log('É necessário decidir o modo de busca.');
         return;
     }
 
     if(trechoAProcurar == undefined && trechoAProcurar == '') {
-        console.log( 'É necessário passar um material para procurar.');
+        console.log('É necessário passar um material para procurar.');
         return;
     }
 }

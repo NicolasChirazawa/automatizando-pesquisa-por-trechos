@@ -5,5 +5,8 @@
   "main": "./programa/base.js",
   "scripts": {},
   "author": "Nicolas Chirazawa Fernandes",
-  "license": "MIT License"
+  "license": "MIT License",
+  "dependencies": {
+    "readline-sync": "^1.4.10"
+  }
 }
