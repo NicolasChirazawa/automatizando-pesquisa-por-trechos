@@ -37,6 +37,7 @@ function matchResults (searchResults, textForSearch, matchChoose) {
 }
 
 function findArchiveMatch (archivesNames, textForSearch, matchChoose) {
+    let isMatchDataFind = false;
     let archives = {};
     let matchData;
 
@@ -47,9 +48,15 @@ function findArchiveMatch (archivesNames, textForSearch, matchChoose) {
         lines = archiveText.split('\r\n');
 
         matchData = searchOccurrences(lines, textForSearch, matchChoose);
-        archives[archivesNames[i]] = matchData;
-        if (matchChoose === '1') { break }
+        if (matchData !== undefined) { 
+            archives[archivesNames[i]] = matchData;
+            isMatchDataFind = true; 
+        };
+        if (matchChoose === '1') { break };
+
     }
+    
+    if (!isMatchDataFind) { return undefined }
     return archives;
 }
 
