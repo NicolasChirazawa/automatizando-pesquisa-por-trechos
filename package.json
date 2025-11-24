@@ -4,11 +4,8 @@
   "description": "Pesquisa de trechos a partir de vários arquivos",
   "main": "./programa/base.js",
   "scripts": {
-    "start": "cd programa && node base.js"
+    "start": "node ./app/main.js"
   },
   "author": "Nicolas Chirazawa Fernandes",
-  "license": "MIT License",
-  "dependencies": {
-    "readline-sync": "^1.4.10"
-  }
+  "license": "MIT License"
 }
