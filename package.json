@@ -7,8 +7,5 @@
     "start": "cd programa && node base.js"
   },
   "author": "Nicolas Chirazawa Fernandes",
-  "license": "MIT License",
-  "dependencies": {
-    "readline-sync": "^1.4.10"
-  }
+  "license": "MIT License"
 }
