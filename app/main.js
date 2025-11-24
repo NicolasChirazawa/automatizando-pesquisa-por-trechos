@@ -22,11 +22,10 @@ async function main () {
         const archivesNames = searchArchivesNames();
         const searchResults = findArchiveMatch(archivesNames, textForSearch, matchChoose);
 
-        console.log(searchResults);
-        // console.clear();
+        console.clear();
         if(searchResults !== undefined) {
             const results = matchResults(searchResults, textForSearch, matchChoose)
-            console.info(JSON.stringify(results, null, 2));
+            console.dir((results), { depth: null });
         } else {
             console.log('Não foi encontrado qualquer resultado.');
         }
