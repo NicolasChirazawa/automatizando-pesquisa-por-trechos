@@ -1,71 +1,60 @@
 const fs = require('fs');
+const readline = require('node:readline');
 
-function verificacoesPrevias(decisaoOcorrencia, trechoAProcurar) {
+const { DIRECTORY } = require('./variables.js');
 
-    if(decisaoOcorrencia != '1' && decisaoOcorrencia != '2') {
-        console.log('É necessário decidir o modo de busca.');
-        return;
-    }
+function createQuestion (text_question) {
+    const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout,
+    });
 
-    if(trechoAProcurar == undefined && trechoAProcurar == '') {
-        console.log('É necessário passar um material para procurar.');
-        return;
-    }
+    const response = rl.question(text_question => { rl.close() });
+    return response;
 }
 
-function procurarArquivos() {
-    const caminho = "/../trechos-pesquisa/"
-
-    const pesquisaDiretorio = fs.readdirSync(__dirname + caminho)
+function searchArchivesNames() {
+    const pesquisaDiretorio = fs.readdirSync(__dirname + DIRECTORY)
     return pesquisaDiretorio;
 }
 
-function lerArquivosUmaOcorrencia (nomeArquivos, trechoAProcurar) {
+function findArchiveMatch (archivesNames, textForSearch, matchChoose) {
+    let matchData;
 
-    const caminho = "/../trechos-pesquisa/";
+    for (let i = 0; i < archivesNames.length; i++) {
+        let lines;
 
-    for(let i = 0; i < nomeArquivos.length; i++){
-        let linhas;
-        const texto = fs.readFileSync(__dirname + caminho + `/${nomeArquivos[i]}`, "utf8");
-        linhas = texto.split('\r\n');
-        const matchDescricao = procurarUmaOcorrencia(linhas, trechoAProcurar);
+        const archiveText = fs.readFileSync(__dirname + DIRECTORY + '/' + archivesNames[i], 'utf-8');
+        lines = archiveText.split('\r\n');
 
-        if (matchDescricao !== undefined) {
-            matchDescricao["arquivo"] = nomeArquivos[i];
-            return matchDescricao;
+        if (matchChoose === '1') {
+            matchData = searchOccurrence(lines, textForSearch);
+            if (matchData !== undefined) { return matchData };
+        } else {
+            matchData[]
         }
     }
+    return matchData
 }
 
-function procurarUmaOcorrencia (linhas, trechoAProcurar) {
-    for(let i = 0; i < linhas.length; i++){
-        let letrasMatch = 0;
+function searchOccurrence (lines, textForSearch) {
+    for(let i = 0; i < lines.length; i++){
+        for(let j = 0; j < lines[i].length; j++){
+            if (textForSearch.length + j > lines[i].length) { break };
 
-        for(let j = 0; j < linhas[i].length; j++){
-            
-            // Caso para diminuir a quantidade de loops desnecessários. Quantidade de caracteres do match maior que a frase mais o andamento do loop.
-            if(linhas[i].length - j < trechoAProcurar) { break }
-
-            if(linhas[i][j] == trechoAProcurar[letrasMatch]) { 
-                letrasMatch++;
-            }  else {
-                
-                if(letrasMatch > 0) { 
-                    const arrumarCasoDuplicidadeLetra = 1
-                    j -= arrumarCasoDuplicidadeLetra;
+            const textSearched = lines[i].slice(j, textForSearch.length + j);
+            if (textSearched === trechoAProcurar) {
+                const FIX_LINE_COUNT = 1;
+                const response = {
+                    numeroLinha:   i + FIX_LINE_COUNT, 
+                    conteudoLinha: lines[i]
                 }
-                letrasMatch = 0;
-            }
-            
-            if (trechoAProcurar.length == letrasMatch) {
-                const arrumarNumeroLinhasArray = 1;
-                return ({
-                        numeroLinha:   i + arrumarNumeroLinhasArray, 
-                        conteudoLinha: linhas[i]
-                });
+
+                return response;
             }
         }
     }
+    return undefined;
 }
 
 function lerArquivoTodasOcorrencias (nomeArquivos, trechoAProcurar) {
@@ -94,10 +83,6 @@ function procurarTodasOcorrencias (linhas, trechoAProcurar) {
         let letrasMatch = 0;
 
         for(let j = 0; j < linhas[i].length; j++){
-            
-            // Caso para diminuir a quantidade de loops desnecessários. Quantidade de caracteres do match maior que a frase mais o andamento do loop.
-            if(linhas[i].length - j < trechoAProcurar) { break }
-
             if(linhas[i][j] == trechoAProcurar[letrasMatch]) { 
                 letrasMatch++;
             }  else {
@@ -122,4 +107,4 @@ function procurarTodasOcorrencias (linhas, trechoAProcurar) {
 }
 
 
-module.exports = { verificacoesPrevias, procurarArquivos, lerArquivosUmaOcorrencia, lerArquivoTodasOcorrencias }
+module.exports = { createQuestion, searchArchivesNames, lerArquivosUmaOcorrencia, lerArquivoTodasOcorrencias }
